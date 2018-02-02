@@ -3,6 +3,51 @@ Self-Driving Car Engineer Nanodegree Program
 
 ---
 
+### `PID Class`
+
+The PID controller is implemented by a `PID Class`, which needs to be specified the P, I, D coefficients:
+
+- `Kp` - proportional coefficient
+- `Ki` - integral coefficient
+- `Kd` - differential coefficient
+
+I use the method  `CalculateSteering` to calculates steer by given  `cte` , i don't use the speed value.
+
+```c++
+  // initialize variables
+   double steering, D_cte;
+   cte_int = cte_int + cte;
+   D_cte = cte - cte_old;
+   cte_old = cte;
+   // Calculate steering angle
+   steering = Kp * cte + Ki * cte_int + Kd * D_cte;
+   // return the steering angle
+   return steering;
+```
+
+
+### P, I, D Tuning
+
+Those three parameters were tuned manually by trial and error based on the following principles.
+
+- `Kp` cannot be too high to avoid overshooting and oscillation.
+- `Kd` is to consider the rate of change of error, which slows down the proportional control but overcomes the overshooting and oscillation issues.
+- `Ki` is to consider the accumulated error to fix the systematic bias, which should be a small value.
+
+Keeping those in mind, the three parameters are chosen after some trial and error:
+
+```c++
+double Kp_steer = -0.05;
+double Ki_steer = 0.0;
+double Kd_steer = -5.0;
+```
+
+By using the above parameters, the PID controller can drive the car and finish the track. Although the car still has some oscillations, but it does not run off the road.
+
+### the fellowing img is my turning pictuer
+![test](pid.jpg)
+
+
 ## Dependencies
 
 * cmake >= 3.5
@@ -19,7 +64,7 @@ Self-Driving Car Engineer Nanodegree Program
   * Run either `./install-mac.sh` or `./install-ubuntu.sh`.
   * If you install from source, checkout to commit `e94b6e1`, i.e.
     ```
-    git clone https://github.com/uWebSockets/uWebSockets 
+    git clone https://github.com/uWebSockets/uWebSockets
     cd uWebSockets
     git checkout e94b6e1
     ```
@@ -33,7 +78,7 @@ There's an experimental patch for windows in this [PR](https://github.com/udacit
 1. Clone this repo.
 2. Make a build directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
-4. Run it: `./pid`. 
+4. Run it: `./pid`.
 
 Tips for setting up your environment can be found [here](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/0949fca6-b379-42af-a919-ee50aa304e6a/lessons/f758c44c-5e40-4e01-93b5-1a82aa4e044f/concepts/23d376c7-0195-4276-bdf0-e02f1f3c665d)
 
@@ -95,4 +140,3 @@ still be compilable with cmake and make./
 
 ## How to write a README
 A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
-

@@ -3,44 +3,54 @@
 
 class PID {
 public:
-  /*
-  * Errors
-  */
-  double p_error;
-  double i_error;
-  double d_error;
+    /*
+    * Errors
+    */
+    double p_error;
+    double i_error;
+    double d_error;
 
-  /*
-  * Coefficients
-  */ 
-  double Kp;
-  double Ki;
-  double Kd;
+    /*
+    * Coefficients
+    */
+    double Kp;
+    double Ki;
+    double Kd;
 
-  /*
-  * Constructor
-  */
-  PID();
 
-  /*
-  * Destructor.
-  */
-  virtual ~PID();
+    double cte_old = 0.0;
+    double cte_int = 0.0;
 
-  /*
-  * Initialize PID.
-  */
-  void Init(double Kp, double Ki, double Kd);
+    /*
+    * Constructor
+    */
+    PID();
 
-  /*
-  * Update the PID error variables given cross track error.
-  */
-  void UpdateError(double cte);
+    /*
+    * Destructor.
+    */
+    virtual ~PID();
 
-  /*
-  * Calculate the total PID error.
+    /*
+    * Initialize PID.
+    */
+    void Init(double Kp, double Ki, double Kd);
+
+    /*
+    * Update the PID error variables given cross track error.
+    */
+    void UpdateError(double cte);
+
+    /*
+    * Calculate the total PID error.
+    */
+    double TotalError();
+
+    /*
+  * Find the steering angle given cross track error.
   */
-  double TotalError();
+    double CalculateSteering(double cte);
+
 };
 
 #endif /* PID_H */
